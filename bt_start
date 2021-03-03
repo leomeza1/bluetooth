@@ -1,0 +1,19 @@
+#!/bin/bash
+
+set -ex
+
+# Disable the Magic System Request Key.
+# for details see https://www.kernel.org/doc/html/latest/admin-guide/sysrq.html
+# sudo bash -c "echo 0 > /proc/sys/kernel/sysrq"
+
+if [ ! -d /sys/class/gpio/gpio3 ] ; then echo 3 > /sys/class/gpio/export || true sleep 1
+fi
+
+echo out > /sys/class/gpio/gpio3/direction || true
+sleep 1
+
+echo 1 > /sys/class/gpio/gpio3/value || true
+sleep 1
+
+sudo hciattach /dev/ttyS1 texas 3000000 || true
+
